@@ -23,21 +23,29 @@ function PredictionForm() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-      const result = await predictPrice(formData);
+    const result = await predictPrice(formData);
 
-      setPrediction(result.predicted_price);
-    } catch (err) {
-      console.error(err);
-      alert("Prediction Failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+    setPrediction(result.predicted_price);
+  } catch (error) {
+    console.error("FULL ERROR:", error);
+    console.error("RESPONSE:", error.response);
+
+    alert(
+      JSON.stringify(
+        error.response?.data || error.message,
+        null,
+        2
+      )
+    );
+  } finally {
+    setLoading(false);
+  }
+};
 
   const inputClass =
     "w-full bg-[#1c2030] border border-[#2a2f45] rounded-xl px-4 py-4 text-white placeholder-gray-400 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/30 transition";
